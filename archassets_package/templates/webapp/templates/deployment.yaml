@@ -1,0 +1,68 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    service: webapp
+  name: webapp
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: architrave/archassets:6
+        imagePullSecrets:
+          - name: architrave-repo
+        env:
+          - name: MYSQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                key: MYSQL_DATABASE
+                name: webapp-configmap
+          - name: MYSQL_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: MYSQL_HOST
+                name: webapp-configmap
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                key: MYSQL_PASSWORD
+                name: webapp-configmap
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                key: MYSQL_ROOT_PASSWORD
+                name: webapp-configmap
+          - name: MYSQL_USER
+            valueFrom:
+              configMapKeyRef:
+                key: MYSQL_USER
+                name: webapp-configmap
+          - name: PHP_CONF_MEMORY_LIMIT
+            valueFrom:
+              configMapKeyRef:
+                key: PHP_CONF_MEMORY_LIMIT
+                name: webapp-configmap
+          - name: RABBITMQ_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: RABBITMQ_HOST
+                name: webapp-configmap
+          - name: RABBITMQ_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                key: RABBITMQ_PASSWORD
+                name: webapp-configmap
+          - name: RABBITMQ_USER
+            valueFrom:
+              configMapKeyRef:
+                key: RABBITMQ_USER
+                name: webapp-configmap
+      resources: {}
+      restartPolicy: Always
