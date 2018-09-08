@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: php-fpm-exporter
+  labels:
+    service: php-fpm-exporter
+    app: {{ include "php-fpm-exporter.name" . }}
+    chart: {{ include "php-fpm-exporter.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: {{ quote .Values.port }}
+spec:
+  type: {{ .Values.serviceType }}
+  ports:
+    - name: {{ quote .Values.port }}
+      port: {{ .Values.port }}
+      targetPort: {{ .Values.port }}
+  selector:
+    service: php-fpm-exporter
+    app: {{ include "php-fpm-exporter.name" . }}
+    release: {{ .Release.Name }}

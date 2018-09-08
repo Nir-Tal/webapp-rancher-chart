@@ -1,0 +1,111 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: crons
+  name: crons
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: crons
+    spec:
+      containers:
+      - args:
+        - watch
+        - -n
+        - "30"
+        - /bin/bash
+        - /jobs.sh
+        env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_DATABASE
+              name: crons-docker-webapp-env
+        - name: MYSQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_HOST
+              name: crons-docker-webapp-env
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_PASSWORD
+              name: crons-docker-webapp-env
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: crons-docker-webapp-env
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_USER
+              name: crons-docker-webapp-env
+        - name: PHP_CONF_MEMORY_LIMIT
+          valueFrom:
+            configMapKeyRef:
+              key: PHP_CONF_MEMORY_LIMIT
+              name: crons-docker-webapp-env
+        - name: RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: RABBITMQ_HOST
+              name: crons-docker-webapp-env
+        - name: RABBITMQ_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: RABBITMQ_PASSWORD
+              name: crons-docker-webapp-env
+        - name: RABBITMQ_USER
+          valueFrom:
+            configMapKeyRef:
+              key: RABBITMQ_USER
+              name: crons-docker-webapp-env
+        image: crons
+        name: AR_crons
+        resources: {}
+        tty: true
+        volumeMounts:
+        - mountPath: /jobs.sh
+          name: crons-claim0
+        - mountPath: /logs
+          name: crons-claim1
+        - mountPath: /storage/ArchAssets
+          name: crons-claim2
+        - mountPath: /storage/data
+          name: data
+        - mountPath: /storage/ArchAssets/config/autoload/local.php
+          name: crons-claim4
+        - mountPath: /etc/ImageMagick-6/policy.xml
+          name: crons-claim5
+      restartPolicy: Always
+      volumes:
+      - name: crons-claim0
+        persistentVolumeClaim:
+          claimName: crons-claim0
+      - name: crons-claim1
+        persistentVolumeClaim:
+          claimName: crons-claim1
+      - name: crons-claim2
+        persistentVolumeClaim:
+          claimName: crons-claim2
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
+      - name: crons-claim4
+        persistentVolumeClaim:
+          claimName: crons-claim4
+      - name: crons-claim5
+        persistentVolumeClaim:
+          claimName: crons-claim5
+status: {}

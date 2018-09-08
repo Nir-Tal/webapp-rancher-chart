@@ -1,0 +1,15 @@
+dependencies:
+- name: prometheus-rabbitmq-exporter
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 0.1.4
+- name: mysql
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 0.10.1
+- name: rabbitmq
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 2.1.3
+- name: nginx-ingress
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 0.28.2
+digest: sha256:a772194ee3c234b0983798bb8417c45a5014c7fa1576d086c9ee851aa0d9fe03
+generated: 2018-09-08T17:21:28.839889541+02:00

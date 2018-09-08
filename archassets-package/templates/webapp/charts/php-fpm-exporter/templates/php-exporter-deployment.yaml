@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    service: php-fpm-exporter
+    app: {{ include "php-fpm-exporter.name" . }}
+    chart: {{ include "php-fpm-exporter.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: php-exporter
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy: {}
+  selector:
+    matchLabels:
+      app: {{ include "php-fpm-exporter.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        service: php-fpm-exporter
+        app: {{ include "php-fpm-exporter.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ quote .Values.containerName}}
+        image: {{ quote .Values.imageRepository }}:{{ quote .Values.imageTag }}
+        imagePullPolicy: {{ quote .Values.imagePullPolicy }}
+        ports:
+          - containerPort: {{ .Values.port }}
+        livenessProbe:
+          httpGet:
+            path: {{ quote .Values.probEndpoint }}
+            port: {{ .Values.port }}
+        readinessProbe:
+          httpGet:
+            path: {{ quote .Values.probEndpoint }}
+            port: {{ .Values.port }}
+        args:
+        - --addr
+        - 0.0.0.0:{{ .Values.port }}
+        - --fastcgi
+        - tcp://{{ .Values.monitoredHost }}:{{ .Values.monitoredHostPort }}{{ .Values.monitoredHostEndpoint }}
+        resources: {}
+      restartPolicy: Always

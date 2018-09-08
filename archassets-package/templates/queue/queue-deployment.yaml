@@ -1,0 +1,106 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: queue
+  name: queue
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: queue
+    spec:
+      containers:
+      - args:
+        - watch
+        - -n
+        - "30"
+        - /storage/ArchAssets/bin/architrave
+        - system:queue-receive
+        env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_DATABASE
+              name: queue-docker-webapp-env
+        - name: MYSQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_HOST
+              name: queue-docker-webapp-env
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_PASSWORD
+              name: queue-docker-webapp-env
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_ROOT_PASSWORD
+              name: queue-docker-webapp-env
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              key: MYSQL_USER
+              name: queue-docker-webapp-env
+        - name: PHP_CONF_MEMORY_LIMIT
+          valueFrom:
+            configMapKeyRef:
+              key: PHP_CONF_MEMORY_LIMIT
+              name: queue-docker-webapp-env
+        - name: RABBITMQ_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: RABBITMQ_HOST
+              name: queue-docker-webapp-env
+        - name: RABBITMQ_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: RABBITMQ_PASSWORD
+              name: queue-docker-webapp-env
+        - name: RABBITMQ_USER
+          valueFrom:
+            configMapKeyRef:
+              key: RABBITMQ_USER
+              name: queue-docker-webapp-env
+        image: queue
+        name: AR_queue
+        resources: {}
+        tty: true
+        volumeMounts:
+        - mountPath: /logs
+          name: queue-claim0
+        - mountPath: /storage/ArchAssets
+          name: queue-claim1
+        - mountPath: /storage/data
+          name: data
+        - mountPath: /storage/ArchAssets/config/autoload/local.php
+          name: queue-claim3
+        - mountPath: /etc/ImageMagick-6/policy.xml
+          name: queue-claim4
+      restartPolicy: Always
+      volumes:
+      - name: queue-claim0
+        persistentVolumeClaim:
+          claimName: queue-claim0
+      - name: queue-claim1
+        persistentVolumeClaim:
+          claimName: queue-claim1
+      - name: data
+        persistentVolumeClaim:
+          claimName: data
+      - name: queue-claim3
+        persistentVolumeClaim:
+          claimName: queue-claim3
+      - name: queue-claim4
+        persistentVolumeClaim:
+          claimName: queue-claim4
+status: {}

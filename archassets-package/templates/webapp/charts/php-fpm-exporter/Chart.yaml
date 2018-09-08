@@ -1,0 +1,17 @@
+apiVersion: v1
+appVersion: v0.4.1
+description: Helm charm to deploy php-fpm-exporter sidecar for php-fpm container
+home: https://prometheus.io/docs/instrumenting/exporters/
+icon: https://prometheus.io/assets/prometheus_logo_grey.svg
+keywords:
+- Prometheus
+- exporter
+- php-fpm
+- sidecar
+maintainers:
+- email: tal@architrave.de
+  name: Nir Tal
+name: php-fpm-exporter
+sources:
+- https://github.com/bakins/php-fpm-exporter
+version: 0.1.9

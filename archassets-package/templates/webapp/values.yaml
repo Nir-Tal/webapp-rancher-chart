@@ -1,0 +1,19 @@
+
+replicaCount: 1
+
+containerName: webapp
+
+imageRepository: rancher.architrave.de:5000/architrave/archassets
+imageTag: 8
+imagePullPolicy: IfNotPresent
+
+mysql_database: architrave
+mysql_host: mysql
+mysql_password: local
+mysql_root_password: local
+mysql_user: architrave
+php_conf_memory_limit: 512M
+rabbitmq_host: rabbitmq
+rabbitmq_password: guest
+rabbitmq_user: guest
+

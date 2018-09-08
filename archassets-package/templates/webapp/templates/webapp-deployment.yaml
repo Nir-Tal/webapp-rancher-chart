@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    service: webapp
+    app: {{ include "webapp.name" . }}
+    chart: {{ include "webapp.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: webapp
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: webapp
+        app: {{ include "webapp.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      imagePullSecrets:
+      - name: architrave-repo
+      containers:
+      - name: "{{ include "webapp.name" . }}"
+        image: "{{ .Values.imageRepository }}:{{ .Values.imageTag }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        env:
+          - name: MYSQL_DATABASE
+            value: {{ quote .Values.mysql_database }}
+          - name: MYSQL_HOST
+            value: {{ quote .Values.mysql_host }}
+          - name: MYSQL_PASSWORD
+            value: {{ quote .Values.mysql_password }}
+          - name: MYSQL_ROOT_PASSWORD
+            value: {{ quote .Values.mysql_root_password }}
+          - name: MYSQL_USER
+            value: {{ quote .Values.mysql_user }}
+          - name: PHP_CONF_MEMORY_LIMIT
+            value: {{ quote .Values.php_conf_memory_limit }}
+          - name: RABBITMQ_HOST
+            value: {{ quote .Values.rabbitmq_host }}
+          - name: RABBITMQ_PASSWORD
+            value: {{ quote .Values.rabbitmq_password }}
+          - name: RABBITMQ_USER
+            value: {{ quote .Values.rabbitmq_user }}
+        resources: {}
+      restartPolicy: Always

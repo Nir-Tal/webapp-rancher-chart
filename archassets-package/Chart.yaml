@@ -1,0 +1,15 @@
+apiVersion: v1
+name: archassets-package
+version: 0.1.1
+appVersion: 1.46.0.1
+description: Architrave Assets managment platform
+keywords:
+  - ArchAssets
+  - architrave
+home: https://architrave.de
+sources:
+  - https://github.com/architrave-de/ArchAssets
+maintainers:
+  - name: Nir Tal
+    email: tal@architrave.de
+icon: https://public.architrave.de/logo_300_100.png

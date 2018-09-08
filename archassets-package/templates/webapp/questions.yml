@@ -1,0 +1,73 @@
+categories:
+  - ArchAssets
+  - webapp
+  - node
+  - php
+
+questions:
+# MySQL
+- variable: environment.mysql.mysql_host
+  default: "mysql"
+  description: "Name of MySQL server"
+  type: password
+  required: true
+  label: "MySQL server name"
+  group: "MySQL Settings"
+
+- variable: environment.mysql.mysql_database
+  default: "architrave"
+  description: "name of app database"
+  type: string
+  required: true
+  label: "database name"
+  group: "MySQL Settings"
+
+- variable: environment.mysql.mysql_user
+  default: "architrave"
+  description: "user to connect with to the app database"
+  type: string
+  required: true
+  label: "database user"
+  group: "MySQL Settings"
+
+- variable: environment.mysql.mysql_password
+  default: "local"
+  description: "password to connect to the app database"
+  type: password
+  required: true
+  label: "database password"
+  group: "MySQL Settings"
+
+# RabbitMQ
+- variable: environment.rabbitmq.rabbitmq_host
+  default: "rabbitmq"
+  description: "Name of RabbitMQ server"
+  type: string
+  required: true
+  label: "RabbitMQ server"
+  group: "RabbitMQ Settings"
+
+- variable: environment.rabbitmq.rabbitmq_user
+  default: "guest"
+  description: "user to connect with to RabbitMQ server"
+  type: string
+  required: false
+  label: "database user"
+  group: "RabbitMQ Settings"
+
+- variable: environment.rabbitmq.rabbitmq_password
+  default: "guest"
+  description: "password to connect with to RabbitMQ server"
+  type: password
+  required: false
+  label: "database password"
+  group: "RabbitMQ Settings"
+
+# PHP
+- variable: environment.php.php_conf_memory_limit
+  default: "512M"
+  description: "Memory limit for PHP proccess"
+  type: string
+  required: false
+  label: "PHP memory usage limit"
+  group: "PHP Settings"

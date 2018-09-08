@@ -1,0 +1,52 @@
+categories:
+- prometeus-exporter
+- PHP-FPM
+- Backend
+
+questions:
+- variable: ports.containerPort
+  default: 9102
+  description: "exporter port"
+  type: intiger
+  required: true
+  label: "exporter port"
+  group: "php-fpm-exporter Settings"
+
+- variable: exporter.monitoredHost
+  default: ""
+  description: "Container name to scrap"
+  type: string
+  required: true
+  label: "PHP-FPM Hostname"
+  group: "php-fpm-exporter Settings"
+
+- variable: exporter.monitoredHostPort
+  default: 9000
+  description: "fastcgi port"
+  type: intiger
+  required: true
+  label: "fastcgi port"
+  group: "php-fpm-exporter Settings"
+
+- variable: exporter.monitoredHostEndpoint
+  default: "/status"
+  description: "Container endpoint to scrap"
+  type: string
+  required: true
+  label: "PHP-FPM endpoint"
+  group: "php-fpm-exporter Settings"
+
+- variable: ingress.enabled
+  default: "false"
+  description: "Expose app using Layer 7 Load Balancer - ingress"
+  type: boolean
+  label: Expose app using Layer 7 Load Balancer
+  show_subquestion_if: true
+  group: "Services and Load Balancing"
+  subquestions:
+  - variable: ingress.hosts[0].name
+    default: "xip.io"
+    description: "Hostname for php-fpm-exporter installation"
+    type: hostname
+    required: true
+    label: Hostname

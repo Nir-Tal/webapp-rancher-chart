@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: architrave-repo
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJyYW5jaGVyLmFyY2hpdHJhdmUuZGU6NTAwMCI6eyJwYXNzd29yZCI6IkNlc3Npb240ZGVjaWxlNWNvbnRyYXJ5IiwidXNlcm5hbWUiOiJhcmNoaXRyYXZlIn19fQ==
+type: kubernetes.io/dockerconfigjson
